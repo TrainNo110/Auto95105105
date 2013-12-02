@@ -24,7 +24,7 @@ public class AutoDial extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_auto_dial);
 		mContext = mAutoDial.getBaseContext();
 		mADTelephony = new ADTelephony(mContext);
-		mPhoneStateRun = new PhoneStateRun(mAutoDial, mADTelephony);
+		mPhoneStateRun = new PhoneStateRun(mADTelephony);
 		mHandler = new Handler();
 		findViews();
 		setListener();
