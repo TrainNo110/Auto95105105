@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import com.android.internal.telephony.ITelephony;
 
 import android.os.Handler;
+import android.support.v4.util.LogWriter;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -42,9 +43,8 @@ public class PhoneStateRun implements Runnable {
             InputStreamReader inputstreamreader = new InputStreamReader(inputstream);  
             bufferedreader = new BufferedReader(inputstreamreader);  
             String str = "";  
-            long dialingStart = 0;  
-            boolean enableVibrator = false;  
-            boolean isAlert = false;
+            long dialingStart = threadStart;  
+            boolean isDialing = false;
             int currentCallState;
             while ((str = bufferedreader.readLine()) != null) {  
                 //如果话机状态从摘机变为空闲,销毁线程  
@@ -54,40 +54,26 @@ public class PhoneStateRun implements Runnable {
                 }else{
                 	callState = currentCallState;
                 }
-                // 线程运行20秒后自动销毁  
-                if (System.currentTimeMillis() - threadStart > 30000) {  
-                    break;  
-                }  
-                if (str.contains("GET_CURRENT_CALLS") || str.contains("CALL_STATE_CHANGED")){
-                	Log.i("TestService", Thread.currentThread().getName() + ":" + str);  
-                }
-                // 记录GSM状态DIALING  
-                if (str.contains("GET_CURRENT_CALLS") && str.contains("DIALING")) {  
-                    // 当DIALING开始并且已经经过ALERTING或者首次DIALING  
-                    if (!isAlert || dialingStart == 0) {  
-                        //记录DIALING状态产生时间  
-                        dialingStart = System.currentTimeMillis();  
-                        isAlert = false;  
-                    }  
-                    continue;  
-                }  
-                if (str.contains("GET_CURRENT_CALLS") && str.contains("ALERTING") && !enableVibrator) {  
-                      
-                    long temp = System.currentTimeMillis() - dialingStart;  
-                    isAlert = true;
+                // 拨打10秒后自动重拨  
+                if (System.currentTimeMillis() - dialingStart > 10000) {
                     iTelephony.endCall();
                     handler.sendEmptyMessage(1);
-                    //这个是关键,当第一次DIALING状态的时间,与当前的ALERTING间隔时间在1.5秒以上并且在20秒以内的话  
-                    //那么认为下次的ACTIVE状态为通话接通.  
-                    if (temp > 1500 && temp < 20000) {  
-                        enableVibrator = true; 
-                        Log.i("TestService", "间隔时间....." + temp + "....." + Thread.currentThread().getName());  
+                    break;  
+                }  
+
+                // 记录GSM状态DIALING  
+                if (str.contains("GET_CURRENT_CALLS") && str.contains("DIALING")) {  
+                    if (!isDialing) {  
+                        //记录DIALING状态产生时间 
+                        dialingStart = System.currentTimeMillis();  
+                        Log.d("Trap", "Time: " + (dialingStart - threadStart));
+                        isDialing = true;  
                     }  
                     continue;  
                 }  
+
                 if (str.contains("GET_CURRENT_CALLS") && str.contains("ACTIVE")) {  
                     Log.i("TestService", "电话已接通"  + "....." + Thread.currentThread().getName());
-                    enableVibrator = false;  
                     break;  
                 }  
             }  

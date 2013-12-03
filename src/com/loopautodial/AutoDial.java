@@ -1,5 +1,11 @@
 package com.loopautodial;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Currency;
+import java.util.List;
+import java.util.Random;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,12 +24,23 @@ import android.widget.Button;
 public class AutoDial extends Activity implements OnClickListener{
 	
 	Button mDialBtn;
+	Button mBeijingBureauBtn;
+	
 	AutoDial mAutoDial = AutoDial.this;
 	Context mContext;
 	ADTelephony mADTelephony;
 	Handler mHandler;
 	Runnable mPhoneStateRun;
 	Process mProcess;
+	
+	Random mRandom;
+	
+	int mCount;
+	
+	List<String> mCurrentAreaCodeList = new ArrayList<String>();
+	List<String> mPhoneNumList = new ArrayList<String>();
+	
+	private static final int MAX_RETRY = 6;
 	
 	private static final String[] AREA_BEIJING = {"010", "022", "0335", "0353", "0534",
 		"0310", "0311", "0312", "0313", "0314", "0315", "0316", "0317", "0318", "0319", 
@@ -40,6 +57,7 @@ public class AutoDial extends Activity implements OnClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auto_dial);
+		mRandom = new Random(System.currentTimeMillis());
 		mContext = mAutoDial.getBaseContext();
 		mADTelephony = new ADTelephony(mContext);
 		mHandler = new Handler(){
@@ -57,21 +75,20 @@ public class AutoDial extends Activity implements OnClickListener{
 	}
 	
 	protected void findViews(){
+		mBeijingBureauBtn = (Button)findViewById(R.id.beijing_bureau_btn);
 		mDialBtn = (Button)findViewById(R.id.dial_btn);
 	}
 	
 	protected void setListener(){
+		mBeijingBureauBtn.setOnClickListener(this);
 		mDialBtn.setOnClickListener(this);
 		mADTelephony.getTelephonyManager().listen(new PhoneStateListener(){
 			
 			@Override
 			public void onCallStateChanged(int state, String incomingNumber){
 				super.onCallStateChanged(state, incomingNumber);
-				Log.d("Trap", "Listened");
 				if(shouldRedial && state == TelephonyManager.CALL_STATE_IDLE){
-					Log.d("Trap", "IDLE:Redial");
-					mADTelephony.call("10086");
-					shouldRedial = false;
+					dial();
 				}
 			}
 		}, PhoneStateListener.LISTEN_CALL_STATE);
@@ -85,14 +102,44 @@ public class AutoDial extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		mCurrentAreaCodeList.clear();
+		mPhoneNumList.clear();
+		mPhoneNumList.add(PHONE_GLOBAL);
 		switch(v.getId()){
+		case R.id.beijing_bureau_btn:
+			mCurrentAreaCodeList.addAll(Arrays.asList(AREA_BEIJING));
+			mCount = MAX_RETRY;
+			dial();
+			break;
 		case R.id.dial_btn:
-			mADTelephony.call("13917671578");
-			shouldRedial = false;
-			mHandler.post(mPhoneStateRun);
 			break;
 		}
 	}
 	
-
+	private String makeNumber(){
+		String areaCode;
+		if(mCurrentAreaCodeList.size() == 0 || mPhoneNumList.size() == 0){
+			return PHONE_GLOBAL;
+		}else{
+			areaCode = mCurrentAreaCodeList.get(mRandom.nextInt() % mCurrentAreaCodeList.size());
+			if(mPhoneNumList.size() == 1){
+				return areaCode + mPhoneNumList.get(0);
+			}else{
+				return areaCode + mPhoneNumList.get(mRandom.nextInt() % mPhoneNumList.size());
+			}
+		}
+	}
+	
+	private void dial(){
+		String number = makeNumber();
+		Log.d("Trap", number);
+		if(mCount <= 0){
+			return;
+		}
+		mADTelephony.call(number);
+		mCount = mCount - 1;
+		shouldRedial = false;
+		mHandler.removeCallbacks(mPhoneStateRun);
+		mHandler.postDelayed(mPhoneStateRun, 200);
+	}
 }

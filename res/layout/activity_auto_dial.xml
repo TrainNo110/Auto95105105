@@ -8,8 +8,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="测试按钮1"
-        android:layout_alignBottom="true";
-        android:visibility="gone";
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
         />
     <ScrollView android:id="@+id/body_scv"
         android:layout_width="fill_parent"
@@ -104,7 +104,7 @@
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:layout_weight="1"
-	                android:text="@string/nanchang_bureau"
+	                android:text="@string/nanning_bureau"
 	                />
 	        </LinearLayout>
 	        <LinearLayout
