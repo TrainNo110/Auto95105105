@@ -8,6 +8,8 @@ import com.android.internal.telephony.ITelephony;
 import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
+import android.os.IBinder;
 import android.telephony.TelephonyManager;
 
 public class ADTelephony{
@@ -45,7 +47,7 @@ public class ADTelephony{
 	        e.printStackTrace();  
 	    }  
 	}
-	public void dial(Context context, String number) {
+	public void dial(String number) {
         try {
             Method dial = mITelephony.getClass().getDeclaredMethod("dial", String.class);
             dial.invoke(mITelephony, number);
@@ -67,7 +69,7 @@ public class ADTelephony{
         }
     }
     
-	public void call(Context context, String number) {
+	public void call(String number) {
         try {
             Method dial = mITelephony.getClass().getDeclaredMethod("call", String.class);
             dial.invoke(mITelephony, number);
@@ -88,5 +90,27 @@ public class ADTelephony{
             e.printStackTrace();
         }
     }
+	
+	public void endCall(){
+		Method endCall = null;
+		try{
+			endCall = mITelephony.getClass().getDeclaredMethod("getITelephony", (Class[])null);
+			endCall.setAccessible(true);
+			mITelephony.endCall();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void answerCall(){
+		Method answerCall = null;
+		try{
+			answerCall = mITelephony.getClass().getDeclaredMethod("getITelephony", (Class[])null);
+			answerCall.setAccessible(true);
+			mITelephony.answerRingingCall();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 
 }

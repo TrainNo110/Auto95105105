@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 import com.android.internal.telephony.ITelephony;
 
+import android.os.Handler;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -14,10 +15,12 @@ public class PhoneStateRun implements Runnable {
     //电话服务  
     private TelephonyManager telManager;
     private ITelephony iTelephony;
+    private Handler handler;
     
-    public PhoneStateRun(ADTelephony adTelephony) {  
+    public PhoneStateRun(ADTelephony adTelephony, Handler handler) {  
         this.telManager = adTelephony.getTelephonyManager();
         this.iTelephony = adTelephony.getITelephony();
+        this.handler = handler;
     }
     
     @Override  
@@ -73,6 +76,7 @@ public class PhoneStateRun implements Runnable {
                     long temp = System.currentTimeMillis() - dialingStart;  
                     isAlert = true;
                     iTelephony.endCall();
+                    handler.sendEmptyMessage(1);
                     //这个是关键,当第一次DIALING状态的时间,与当前的ALERTING间隔时间在1.5秒以上并且在20秒以内的话  
                     //那么认为下次的ACTIVE状态为通话接通.  
                     if (temp > 1500 && temp < 20000) {  
