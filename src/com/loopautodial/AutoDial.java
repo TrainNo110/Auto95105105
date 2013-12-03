@@ -28,11 +28,11 @@ public class AutoDial extends Activity implements OnClickListener{
 	private static final String[] AREA_BEIJING = {"010", "022", "0335", "0353", "0534",
 		"0310", "0311", "0312", "0313", "0314", "0315", "0316", "0317", "0318", "0319", 
 		};
+	//TODO: Add other area codes here
 	
 	private static final String PHONE_GLOBAL = "95105105";
 	private static final String PHONE_XIAN = "96688";
 	private static final String PHONE_CHENGDU = "96006";
-	
 	
 	boolean shouldRedial = false;
 

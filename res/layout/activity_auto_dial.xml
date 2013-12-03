@@ -2,20 +2,161 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AutoDial" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
     <Button android:id="@+id/dial_btn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="测试按钮1"
+        android:layout_alignBottom="true";
+        android:visibility="gone";
         />
+    <ScrollView android:id="@+id/body_scv"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+	        <Button android:id="@+id/beijing_bureau_btn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/beijing_railway_bureau"
+		        />
+	        <Button android:id="@+id/shanghai_bureau_btn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/shanghai_railway_bureau"
+		        />
+	        <Button android:id="@+id/guangzhou_company_btn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:text="@string/guangzhou_railway_company"
+		        />
+	        <LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal"
+	            >
+	            <Button android:id="@+id/harbin_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/harbin_bureau"
+	                />
+	            <Button android:id="@+id/shenyang_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/shenyang_bureau"
+	                />
+	            <Button android:id="@+id/jinan_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/jinan_bureau"
+	                />
+	        </LinearLayout>
+	        <LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal"
+	            >
+	            <Button android:id="@+id/taiyuan_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/taiyuan_bureau"
+	                />
+	            <Button android:id="@+id/zhengzhou_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/zhengzhou_bureau"
+	                />
+	            <Button android:id="@+id/xian_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/xian_bureau"
+	                />
+	        </LinearLayout>
+	        <LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal"
+	            >
+	            <Button android:id="@+id/nanchang_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/nanchang_bureau"
+	                />
+	            <Button android:id="@+id/lanzhou_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/lanzhou_bureau"
+	                />
+	            <Button android:id="@+id/nanning_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/nanchang_bureau"
+	                />
+	        </LinearLayout>
+	        <LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal"
+	            >
+	            <Button android:id="@+id/chengdu_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/chengdu_bureau"
+	                />
+	            <Button android:id="@+id/kunming_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/kunming_bureau"
+	                />
+	            <Button android:id="@+id/qingzang_company_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/qingzang_company"
+	                />
+	        </LinearLayout>
+	        <LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal"
+	            >
+	            <Button android:id="@+id/hohhot_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/hohhot_bureau"
+	                />
+	            <Button android:id="@+id/urumqi_bureau_btn"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:text="@string/urumqi_bureau"
+	                />
+	        </LinearLayout>
+	        <TextView 
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:text="@string/wuhan_bureau"
+	            android:singleLine="false"
+	            />
+	    </LinearLayout>
+    </ScrollView>
+
 
 </RelativeLayout>

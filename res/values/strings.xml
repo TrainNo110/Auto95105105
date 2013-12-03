@@ -4,5 +4,23 @@
     <string name="app_name">AutoDial</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="beijing_railway_bureau">北京铁路局</string>
+    <string name="shanghai_railway_bureau">上海铁路局</string>
+    <string name="guangzhou_railway_company">广州铁路(集团)公司</string>
+    <string name="harbin_bureau">哈尔滨局</string>
+    <string name="shenyang_bureau">沈阳局</string>
+    <string name="jinan_bureau">济南局</string>
+    <string name="taiyuan_bureau">太原局</string>
+    <string name="zhengzhou_bureau">郑州局</string>
+    <string name="xian_bureau">西安局</string>
+    <string name="wuhan_bureau">注：由于武汉铁路局电话订票系统太烂，故本程序作者不提供相应功能，建议有想抢购武汉铁路局车站出发车票者使用网络购票。</string>
+    <string name="nanchang_bureau">南昌局</string>
+    <string name="nanning_bureau">南宁局</string>
+    <string name="chengdu_bureau">成都局</string>
+    <string name="kunming_bureau">昆明局</string>
+    <string name="qingzang_company">青藏公司</string>
+    <string name="lanzhou_bureau">兰州局</string> 
+    <string name="hohhot_bureau">呼和浩特局</string>
+    <string name="urumqi_bureau">乌鲁木齐局</string>
+    
 </resources>
