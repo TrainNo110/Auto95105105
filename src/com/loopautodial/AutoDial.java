@@ -88,7 +88,7 @@ public class AutoDial extends Activity implements OnClickListener{
 			public void onCallStateChanged(int state, String incomingNumber){
 				super.onCallStateChanged(state, incomingNumber);
 				if(shouldRedial && state == TelephonyManager.CALL_STATE_IDLE){
-					dial();
+					startAutoDial();
 				}
 			}
 		}, PhoneStateListener.LISTEN_CALL_STATE);
@@ -101,7 +101,6 @@ public class AutoDial extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		mCurrentAreaCodeList.clear();
 		mPhoneNumList.clear();
 		mPhoneNumList.add(PHONE_GLOBAL);
@@ -109,7 +108,7 @@ public class AutoDial extends Activity implements OnClickListener{
 		case R.id.beijing_bureau_btn:
 			mCurrentAreaCodeList.addAll(Arrays.asList(AREA_BEIJING));
 			mCount = MAX_RETRY;
-			dial();
+			startAutoDial();
 			break;
 		case R.id.dial_btn:
 			break;
@@ -121,21 +120,21 @@ public class AutoDial extends Activity implements OnClickListener{
 		if(mCurrentAreaCodeList.size() == 0 || mPhoneNumList.size() == 0){
 			return PHONE_GLOBAL;
 		}else{
-			areaCode = mCurrentAreaCodeList.get(mRandom.nextInt() % mCurrentAreaCodeList.size());
+			areaCode = mCurrentAreaCodeList.get(Math.abs(mRandom.nextInt()) % mCurrentAreaCodeList.size());
 			if(mPhoneNumList.size() == 1){
 				return areaCode + mPhoneNumList.get(0);
 			}else{
-				return areaCode + mPhoneNumList.get(mRandom.nextInt() % mPhoneNumList.size());
+				return areaCode + mPhoneNumList.get(Math.abs(mRandom.nextInt()) % mPhoneNumList.size());
 			}
 		}
 	}
 	
-	private void dial(){
+	private void startAutoDial(){
 		String number = makeNumber();
-		Log.d("Trap", number);
 		if(mCount <= 0){
 			return;
 		}
+		Log.d("Trap", number);
 		mADTelephony.call(number);
 		mCount = mCount - 1;
 		shouldRedial = false;

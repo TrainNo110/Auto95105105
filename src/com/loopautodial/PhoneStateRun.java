@@ -13,8 +13,8 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 public class PhoneStateRun implements Runnable {
-    //电话服务  
-    private TelephonyManager telManager;
+
+	private TelephonyManager telManager;
     private ITelephony iTelephony;
     private Handler handler;
     
@@ -26,19 +26,17 @@ public class PhoneStateRun implements Runnable {
     
     @Override  
     public void run() {  
-        //获取当前话机状态  
         int callState = telManager.getCallState();  
         Log.i("TestService", "开始.........." + Thread.currentThread().getName());  
-        //记录拨号开始时间  
         long threadStart = System.currentTimeMillis();  
         Process process = null;  
         InputStream inputstream;  
         BufferedReader bufferedreader;  
 
         try {  
-			process = Runtime.getRuntime().exec("logcat -b radio -c");
+			process = Runtime.getRuntime().exec("logcat -b radio -c");	//清理raido域里的旧log
 			process.waitFor();
-            process = Runtime.getRuntime().exec("logcat -v time -b radio");  
+            process = Runtime.getRuntime().exec("logcat -v time -b radio");  //开始运行logcat
             inputstream = process.getInputStream();  
             InputStreamReader inputstreamreader = new InputStreamReader(inputstream);  
             bufferedreader = new BufferedReader(inputstreamreader);  
@@ -46,7 +44,8 @@ public class PhoneStateRun implements Runnable {
             long dialingStart = threadStart;  
             boolean isDialing = false;
             int currentCallState;
-            while ((str = bufferedreader.readLine()) != null) {  
+            while ((str = bufferedreader.readLine()) != null) {
+            	
                 //如果话机状态从摘机变为空闲,销毁线程  
             	currentCallState = telManager.getCallState();
                 if (callState == TelephonyManager.CALL_STATE_OFFHOOK && currentCallState == TelephonyManager.CALL_STATE_IDLE) {  
