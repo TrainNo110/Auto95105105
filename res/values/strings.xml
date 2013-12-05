@@ -23,4 +23,10 @@
     <string name="hohhot_bureau">呼和浩特局</string>
     <string name="urumqi_bureau">乌鲁木齐局</string>
     
+    <string name="please_choose_province">请选择省份</string>
+    <string name="guangdong">广东省</string>
+    <string name="hunan">湖南省</string>
+    <string name="hainan">海南省</string>
+    
+    
 </resources>
