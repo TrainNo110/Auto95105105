@@ -18,6 +18,9 @@ public class PhoneStateRun implements Runnable {
     private ITelephony iTelephony;
     private Handler handler;
     
+    private static final int DIALING_TIME_LIMIT = 12000;
+    private static final int ALERTING_TIME_LIMIT = 4000;
+    
     public PhoneStateRun(ADTelephony adTelephony, Handler handler) {  
         this.telManager = adTelephony.getTelephonyManager();
         this.iTelephony = adTelephony.getITelephony();
@@ -41,8 +44,10 @@ public class PhoneStateRun implements Runnable {
             InputStreamReader inputstreamreader = new InputStreamReader(inputstream);  
             bufferedreader = new BufferedReader(inputstreamreader);  
             String str = "";  
-            long dialingStart = threadStart;  
+            long dialingStart = threadStart;
+            long alertingStart = -1;
             boolean isDialing = false;
+            boolean isAlerting = false;
             int currentCallState;
             while ((str = bufferedreader.readLine()) != null) {
             	
@@ -53,23 +58,35 @@ public class PhoneStateRun implements Runnable {
                 }else{
                 	callState = currentCallState;
                 }
-                // 拨打10秒后自动重拨  
-                if (System.currentTimeMillis() - dialingStart > 10000) {
+                // 拨打一定时间，或等待一定时间后自动重拨  
+                if ((!isAlerting && System.currentTimeMillis() - dialingStart > DIALING_TIME_LIMIT) || 
+                		(isAlerting && System.currentTimeMillis() - alertingStart > ALERTING_TIME_LIMIT)) {
                     iTelephony.endCall();
                     handler.sendEmptyMessage(1);
                     break;  
                 }  
+                
 
                 // 记录GSM状态DIALING  
                 if (str.contains("GET_CURRENT_CALLS") && str.contains("DIALING")) {  
                     if (!isDialing) {  
                         //记录DIALING状态产生时间 
                         dialingStart = System.currentTimeMillis();  
-                        Log.d("Trap", "Time: " + (dialingStart - threadStart));
                         isDialing = true;  
                     }  
                     continue;  
                 }  
+                
+                // 记录状态ALERTING
+                if (str.contains("GET_CURRENT_CALLS") && str.contains("ALERTING")){
+                	if (!isAlerting){
+                		//记录ALERTING状态产生时间
+                		alertingStart = System.currentTimeMillis();
+                		isAlerting = true;
+                	}
+                	continue;
+                }
+
 
                 if (str.contains("GET_CURRENT_CALLS") && str.contains("ACTIVE")) {  
                     Log.i("TestService", "电话已接通"  + "....." + Thread.currentThread().getName());
