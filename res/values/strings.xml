@@ -22,6 +22,7 @@
     <string name="lanzhou_bureau">兰州局</string> 
     <string name="hohhot_bureau">呼和浩特局</string>
     <string name="urumqi_bureau">乌鲁木齐局</string>
+    <string name="designated_number">拨打右侧号码</string>
     
     <string name="please_choose_province">请选择省份</string>
     <string name="guangdong">广东省</string>

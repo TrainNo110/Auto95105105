@@ -5,11 +5,8 @@ import java.lang.reflect.Method;
 
 import com.android.internal.telephony.ITelephony;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
-import android.os.IBinder;
 import android.telephony.TelephonyManager;
 
 public class ADTelephony{

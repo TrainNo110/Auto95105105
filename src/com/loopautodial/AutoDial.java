@@ -5,25 +5,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class AutoDial extends Activity implements OnClickListener{
 	
-	Button mDialBtn;
 	Button mBeijingBureauBtn;
 	Button mShanghaiBureauBtn;
 	Button mGuangzhouCompanyBtn;
@@ -41,6 +42,9 @@ public class AutoDial extends Activity implements OnClickListener{
 	Button mQingzangCompanyBtn;
 	Button mHohhotBureauBtn;
 	Button mUrumqiBureauBtn;
+	Button mDesignatedBtn;
+	
+	EditText mDesignatedEdt;
 	
 	AutoDial mAutoDial = AutoDial.this;
 	Context mContext;
@@ -169,7 +173,8 @@ public class AutoDial extends Activity implements OnClickListener{
 		mQingzangCompanyBtn = (Button)findViewById(R.id.qingzang_company_btn);
 		mHohhotBureauBtn = (Button)findViewById(R.id.hohhot_bureau_btn);
 		mUrumqiBureauBtn = (Button)findViewById(R.id.urumqi_bureau_btn);
-		mDialBtn = (Button)findViewById(R.id.dial_btn);
+		mDesignatedBtn = (Button)findViewById(R.id.designated_btn);
+		mDesignatedEdt = (EditText)findViewById(R.id.designated_edt);
 	}
 	
 	protected void setListener(){
@@ -190,7 +195,7 @@ public class AutoDial extends Activity implements OnClickListener{
 		mQingzangCompanyBtn.setOnClickListener(this);
 		mHohhotBureauBtn.setOnClickListener(this);
 		mUrumqiBureauBtn.setOnClickListener(this);
-		mDialBtn.setOnClickListener(this);
+		mDesignatedBtn.setOnClickListener(this);
 		mADTelephony.getTelephonyManager().listen(new PhoneStateListener(){
 			
 			@Override
@@ -234,10 +239,14 @@ public class AutoDial extends Activity implements OnClickListener{
 			mCount = MAX_RETRY;
 			startAutoDial();
 			break;
+		case R.id.designated_btn:
+			mCurrentAreaCodeList.clear();
+			mPhoneNumList.clear();
+			mCount = MAX_RETRY;
+			startAutoDial();
+			break;
 		case R.id.guangzhou_company_btn:
-
 			showGuangTieDialog();
-		case R.id.dial_btn:
 			break;
 		}
 	}
@@ -300,7 +309,12 @@ public class AutoDial extends Activity implements OnClickListener{
 	private String makeNumber(){
 		String areaCode;
 		if(mCurrentAreaCodeList.size() == 0 || mPhoneNumList.size() == 0){
-			return PHONE_GLOBAL;
+			String num = mDesignatedEdt.getText().toString();
+			if(TextUtils.isEmpty(num)){
+				return PHONE_GLOBAL;
+			}else{
+				return num;
+			}
 		}else{
 			areaCode = mCurrentAreaCodeList.get(Math.abs(mRandom.nextInt()) % mCurrentAreaCodeList.size());
 			if(mPhoneNumList.size() == 1){

@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     tools:context=".AutoDial" >
 
-    <Button android:id="@+id/dial_btn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="测试按钮1"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone"
-        />
     <ScrollView android:id="@+id/body_scv"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -148,6 +141,25 @@
 	                android:layout_weight="1"
 	                android:text="@string/urumqi_bureau"
 	                />
+	        </LinearLayout>
+	        <LinearLayout
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:orientation="horizontal" 
+	            >
+	            <Button android:id="@+id/designated_btn"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/designated_number"
+	                />
+	            <EditText android:id="@+id/designated_edt"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:inputType="phone"
+	                />
+	            
 	        </LinearLayout>
 	        <TextView 
 	            android:layout_width="fill_parent"

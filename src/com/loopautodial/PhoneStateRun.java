@@ -1,14 +1,12 @@
 package com.loopautodial;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.android.internal.telephony.ITelephony;
 
 import android.os.Handler;
-import android.support.v4.util.LogWriter;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -65,7 +63,9 @@ public class PhoneStateRun implements Runnable {
                     handler.sendEmptyMessage(1);
                     break;  
                 }  
-                
+                if (str.contains("GET_CURRENT_CALLS")){
+                	Log.i("Trap", str);
+                }
 
                 // 记录GSM状态DIALING  
                 if (str.contains("GET_CURRENT_CALLS") && str.contains("DIALING")) {  
